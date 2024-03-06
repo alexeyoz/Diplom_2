@@ -19,6 +19,7 @@ class TestCreateUser:
         }
         response = requests.post(Url.CREATE_USER, data=payload)
         assert response.status_code == 200
+        assert response.json()['success']
 
     @allure.title('Создание пользователя, который уже зарегистрирован')
     def test_create_user_exists(self):
@@ -33,9 +34,9 @@ class TestCreateUser:
 
     @allure.title('Создание пользователя без одного из обязательных полей.')
     @pytest.mark.parametrize('email, password, name',
-                             [['', 'create_email', 'create_email'],
-                              ['create_password', '', 'create_password'],
-                              ['create_name', 'create_name', '']])
+                             [['', create_email, create_email],
+                              [create_password, '', create_password],
+                              [create_name, create_name, '']])
     def test_creating_user_not_enough_data(self, email, password, name):
         payload = {
             'email': email,

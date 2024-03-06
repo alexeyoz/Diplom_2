@@ -11,11 +11,13 @@ class TestCreatingOrder:
     def test_creating_order_autorized(self, user):
         response = helpers.creating_order(Ingredients.INGREDIENTS, user["json"]["accessToken"])
         assert response.status_code == 200
+        assert response.json()['success']
 
     @allure.title('Создание заказа неавторизованным пользователем')
     def test_creating_order_not_autorized(self):
         response = helpers.creating_order(Ingredients.INGREDIENTS)
         assert response.status_code == 200
+        assert response.json()['success']
 
     @allure.title('Создание заказа без ингредиентов')
     def test_creating_order_not_ingredients(self):

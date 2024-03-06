@@ -11,6 +11,7 @@ class TestReceiveUserOrders:
     def test_receive_user_orders_autorized(self, user):
         response = helpers.get_order_list(user["json"]["accessToken"])
         assert response.status_code == 200
+        assert response.json()['success']
         assert len(response.json()) > 0
 
     @allure.title('Получение списка заказов неавторизованным пользователем')

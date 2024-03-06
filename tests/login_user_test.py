@@ -4,15 +4,15 @@ import helpers
 from data import ErrorMessage
 
 
-@allure.story('Проверка логирования пользователя')
+@allure.story('Проверка авторизации пользователя')
 class TestLoginUser:
-    @allure.title('Логин под существующим пользователем')
+    @allure.title('Авторизация под существующим пользователем')
     def test_can_login_user(self, user):
         response = helpers.login_user(user["email"], user["password"])
-
         assert response.status_code == 200
+        assert response.json()['success']
 
-    @allure.title('Логин с неверным логином и паролем')
+    @allure.title('Авторизация с неверным логином и паролем')
     @pytest.mark.parametrize('email, password', [['', 'password'], ['email', '']])
     def test_login_user_not_enough_data(self, email, password):
         response = helpers.login_user(email, password)
